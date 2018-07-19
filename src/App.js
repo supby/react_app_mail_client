@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+import SearchBar from './components/SearchBar';
+
 class App extends Component {
   render() {
     return (
@@ -19,9 +21,7 @@ class App extends Component {
             </div>
             <div className="collapse navbar-collapse">
               <form className="navbar-form navbar-left">
-                <div className="form-group">
-                  <input type="text" className="form-control" placeholder="Search" />
-                </div>
+                <SearchBar />
               </form>
             </div>
           </div>
