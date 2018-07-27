@@ -5,6 +5,11 @@ import './App.css';
 import SearchBar from './components/SearchBar';
 
 class App extends Component {
+
+  handleSearch(searchQuery) {        
+      alert(searchQuery);
+  }
+
   render() {
     return (
       <div className="App">
@@ -21,7 +26,7 @@ class App extends Component {
             </div>
             <div className="collapse navbar-collapse">
               <form className="navbar-form navbar-left">
-                <SearchBar />
+                <SearchBar handleSearch={this.handleSearch.bind(this)} />
               </form>
             </div>
           </div>
