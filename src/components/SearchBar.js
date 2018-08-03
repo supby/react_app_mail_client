@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
+import { connect } from 'react-redux'
+import { loadSearchQueryShortResults } from '../actions'
 
 class SearchBar extends Component {
     constructor() {
@@ -10,7 +12,7 @@ class SearchBar extends Component {
         };
 
         this.handleSearchDebounced = _.debounce(function () {
-            this.props.handleSearch.apply(this, [this.state.searchQuery]);            
+            this.props.searchQueryChanged(this.props.searchQuery);
         }, 500);
     }
 
@@ -39,4 +41,22 @@ class SearchBar extends Component {
     }
 }
 
-export default SearchBar;
+const mapStateToProps = state => {
+    return {
+        searchQuery: '',
+        resultList: []
+    }
+  }
+  ​
+  const mapDispatchToProps = dispatch => {
+    return {
+      onTodoClick: query => {
+        dispatch(loadSearchQueryShortResults(query))
+      }
+    }
+  }
+  ​
+  export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(SearchBar);
