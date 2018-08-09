@@ -3,9 +3,13 @@ import _ from 'lodash';
 import { connect } from 'react-redux'
 import { loadSearchQueryShortResults } from '../actions'
 
-class SearchBar extends Component {
+class EmailsList extends Component {
     constructor() {
         super();
+        this.state = { 
+            searchQuery: '',
+            resultList: []
+        };
 
         this.handleSearchDebounced = _.debounce(function () {
             this.props.searchQueryChanged(this.props.searchQuery);
@@ -20,34 +24,21 @@ class SearchBar extends Component {
 
     render() {
         return (
-            <div class="input-group mb-3">
-                <input type="text"
-                    onChange={this.searchQueryChanged.bind(this)}
-                    value={this.state.searchQuery}
-                    className="form-control"
-                    placeholder="Search" />
-                <div class="panel panel-default">
-                    <ul class="list-group">
-                        { this.props.resultList.map((el) => 
-                                <li class="list-group-item">{el}</li>)}
-                    </ul>
-                </div>
-            </div>
+            <div>List of emails</div>
         );
     }
 }
 
 const mapStateToProps = state => {
     return {
-        searchQuery: '',
-        resultList: []
+        emailsList: []
     }
   }
   ​
   const mapDispatchToProps = dispatch => {
     return {
-      onTodoClick: query => {
-        dispatch(loadSearchQueryShortResults(query))
+      onEmailClick: query => {
+        //dispatch(loadSearchQueryShortResults(query))
       }
     }
   }
@@ -55,4 +46,4 @@ const mapStateToProps = state => {
   export default connect(
     mapStateToProps,
     mapDispatchToProps
-  )(SearchBar);
+  )(EmailsList);

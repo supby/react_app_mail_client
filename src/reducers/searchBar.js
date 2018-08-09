@@ -1,10 +1,14 @@
-const searchBar = (state = [], action) => {
+const searchBarDefaultState = {
+    searchResults: []
+};
+
+const searchBar = (state = searchBarDefaultState, action) => {
     switch (action.type) {
-      case 'SEARCH':
-        return []
+      case 'SHOW_SHORT_SEARCH_RESULTS':
+        return { ...state,  searchResults: action.payload }
       default:
         return state
     }
   }
   ​
-  export default searchBar
+export default searchBar
