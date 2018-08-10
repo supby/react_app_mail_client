@@ -7,29 +7,28 @@ class SearchBar extends Component {
     constructor() {
         super();
 
-        this.handleSearchDebounced = _.debounce(function () {
-            this.props.searchQueryChanged(this.props.searchQuery);
+        this.handleSearchDebounced = _.debounce(function (query) {
+            this.props.searchQueryChanged(query);
         }, 500);
     }
 
-    searchQueryChanged(event) {        
-        this.setState({searchQuery: event.target.value});
-        this.handleSearchDebounced();
+    searchQueryChanged(event) {
+        this.handleSearchDebounced(event.target.value);
         event.preventDefault();
     }
 
     render() {
         return (
-            <div class="input-group mb-3">
+            <div className="input-group mb-3">
                 <input type="text"
                     onChange={this.searchQueryChanged.bind(this)}
-                    value={this.state.searchQuery}
+                    value={this.props.searchQuery}
                     className="form-control"
                     placeholder="Search" />
-                <div class="panel panel-default">
-                    <ul class="list-group">
-                        { this.props.resultList.map((el) => 
-                                <li class="list-group-item">{el}</li>)}
+                <div className="panel panel-default">
+                    <ul className="list-group">
+                        { this.props.searchResults.map((el) => 
+                                <li class="list-group-item">{el.text}</li>)}
                     </ul>
                 </div>
             </div>
@@ -38,21 +37,20 @@ class SearchBar extends Component {
 }
 
 const mapStateToProps = state => {
+    console.log(state);
     return {
-        searchQuery: '',
-        resultList: []
+        searchQuery: state.searchBar.searchQuery,
+        searchResults: state.searchBar.searchResults
     }
-  }
-  ​
-  const mapDispatchToProps = dispatch => {
+};
+
+const mapDispatchToProps = dispatch => {
     return {
-      onTodoClick: query => {
-        dispatch(loadSearchQueryShortResults(query))
-      }
+        searchQueryChanged: query => dispatch(loadSearchQueryShortResults(query))
     }
-  }
-  ​
-  export default connect(
+};
+
+export default connect(
     mapStateToProps,
     mapDispatchToProps
-  )(SearchBar);
+)(SearchBar);

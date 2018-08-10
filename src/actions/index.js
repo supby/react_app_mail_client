@@ -1,26 +1,32 @@
+import axios from "axios";
 
 
-function showShortResults(results) {
+export function showSearchQueryShortResults(results) {
     return {
       type: 'SHOW_SHORT_SEARCH_RESULTS',
       payload: results
     };
 }
 
-function showEmailsList(results) {
+export function showEmailsList(results) {
     return {
       type: 'FILTER_EMAILS_LIST',
       payload: results
     };
 }
 
-function loadSearchQueryShortResults(query) {
+export function loadSearchQueryShortResults(query) {
     return (dispatch) => {
-      // axious
+        alert(query);
+        if(!query) return;
+
+        axios
+        .get('http://localhost:5000/search')
+        .then(resp => dispatch(showSearchQueryShortResults(resp)));
     }
 }
 
-function loadEmailsList(query) {
+export function loadEmailsList(query) {
     return (dispatch) => {
       // axious
     }
