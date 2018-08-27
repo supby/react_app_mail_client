@@ -4,31 +4,27 @@ import { connect } from 'react-redux'
 import { loadSearchQueryShortResults } from '../actions'
 
 class SearchBar extends Component {
-    constructor() {
-        super();
 
-        this.handleSearchDebounced = _.debounce(function (query) {
-            this.props.searchQueryChanged(query);
-        }, 500);
-    }
+    handleSearchDebounced = _.debounce(function (query) {
+        this.props.searchQueryChanged(query);
+    }, 1000);
 
-    searchQueryChanged(event) {
-        this.handleSearchDebounced(event.target.value);
-        event.preventDefault();
+    onChange = function (e) {
+        this.handleSearchDebounced(e.target.value);
+        e.preventDefault();
     }
 
     render() {
         return (
             <div className="input-group mb-3">
                 <input type="text"
-                    onChange={this.searchQueryChanged.bind(this)}
-                    value={this.props.searchQuery}
+                    onChange={this.onChange.bind(this)}
                     className="form-control"
                     placeholder="Search" />
                 <div className="panel panel-default">
                     <ul className="list-group">
-                        { this.props.searchResults.map((el) => 
-                                <li class="list-group-item">{el.text}</li>)}
+                        { this.props.results.map((el) => 
+                                <li key={el.id} className="list-group-item">{el.text}</li>)}
                     </ul>
                 </div>
             </div>
@@ -39,8 +35,7 @@ class SearchBar extends Component {
 const mapStateToProps = state => {
     console.log(state);
     return {
-        searchQuery: state.searchBar.searchQuery,
-        searchResults: state.searchBar.searchResults
+        results: state.searchBar.results
     }
 };
 

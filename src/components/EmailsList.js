@@ -1,49 +1,39 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
 import { connect } from 'react-redux'
-import { loadSearchQueryShortResults } from '../actions'
+import { loadEmailsList } from '../actions'
 
 class EmailsList extends Component {
-    constructor() {
-        super();
-        this.state = { 
-            searchQuery: '',
-            resultList: []
-        };
 
-        this.handleSearchDebounced = _.debounce(function () {
-            this.props.searchQueryChanged(this.props.searchQuery);
-        }, 500);
-    }
-
-    searchQueryChanged(event) {        
-        this.setState({searchQuery: event.target.value});
-        this.handleSearchDebounced();
-        event.preventDefault();
+    componentDidMount() {
+        this.props.loadEmailsList();
     }
 
     render() {
         return (
-            <div>List of emails</div>
+            <div>
+            { this.props.list.map((el) => 
+                    <div key={el.id}>{el.title}</div>)}
+            </div>
         );
     }
 }
 
 const mapStateToProps = state => {
     return {
-        emailsList: []
+        list: state.emailsList.list
     }
-  }
-  ​
-  const mapDispatchToProps = dispatch => {
+}
+
+const mapDispatchToProps = dispatch => {
     return {
-      onEmailClick: query => {
-        //dispatch(loadSearchQueryShortResults(query))
+      loadEmailsList: query => {
+        dispatch(loadEmailsList())
       }
     }
-  }
-  ​
-  export default connect(
+}
+
+export default connect(
     mapStateToProps,
     mapDispatchToProps
-  )(EmailsList);
+)(EmailsList);

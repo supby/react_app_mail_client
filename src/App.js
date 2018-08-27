@@ -3,13 +3,9 @@ import logo from './logo.svg';
 import './App.css';
 
 import SearchBar from './components/SearchBar';
+import EmailsList from './components/EmailsList';
 
 class App extends Component {
-
-  handleSearch(searchQuery) {        
-      alert(searchQuery);
-  }
-
   render() {
     return (
       <div className="App">
@@ -26,12 +22,19 @@ class App extends Component {
             </div>
             <div className="collapse navbar-collapse">
               <form className="navbar-form navbar-left">
-                <SearchBar handleSearch={this.handleSearch.bind(this)} />
+                <SearchBar />
               </form>
             </div>
           </div>
         </nav>
-        <div className="container">
+        <div style={{marginTop: 100 + 'px'}} className="container">
+          <div className="row">
+            <div className="col-lg-2">Left Pane</div>
+            <div className="col-lg-6">
+              <EmailsList />
+            </div>
+            <div className="col-lg-2">Right Pane</div>
+          </div>
         </div>
       </div>
     );

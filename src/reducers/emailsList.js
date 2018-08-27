@@ -1,11 +1,11 @@
 const emailsListDefaultState = {
-    emailsList: []
+    list: []
 }
 
 export const emailsList = (state = emailsListDefaultState, action) => {
     switch (action.type) {
-      case 'FILTER_EMAILS_LIST':
-        return {...state, emailsList: action.payload};
+      case 'SHOW_EMAILS_LIST':
+        return { list: action.list };
       default:
         return state
     }
