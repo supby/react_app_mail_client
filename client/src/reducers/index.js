@@ -3,6 +3,6 @@ import { searchBar } from './searchBar'
 import { emailsList } from './emailsList'
 
 export default combineReducers({
-    searchBar,
-    emailsList
-});
+  searchBar,
+  emailsList
+})
