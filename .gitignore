@@ -22,3 +22,5 @@ yarn-error.log*
 
 # credentials
 credentials.json
+credentials.js
+token.json

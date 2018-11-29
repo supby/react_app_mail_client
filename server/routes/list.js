@@ -14,9 +14,15 @@ router.get('/', checkJwt, checkScopes, function (req, res) {
   })
 })
 
-router.get('/temp123', function (req, res) {
+router.get('/temp/labels', async function (req, res) {
   res.json({
-    messages: gmail.list()
+    messages: await gmail.list.labels()
+  })
+})
+
+router.get('/temp/messages', async function (req, res) {
+  res.json({
+    messages: await gmail.list.messages()
   })
 })
 

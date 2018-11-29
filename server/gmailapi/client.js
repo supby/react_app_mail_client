@@ -1,6 +1,7 @@
 const fs = require('fs')
 const readline = require('readline')
 const { google } = require('googleapis')
+const credentials = require('./credentials')
 
 // If modifying these scopes, delete token.json.
 const SCOPES = ['https://www.googleapis.com/auth/gmail.readonly']
@@ -11,20 +12,15 @@ const TOKEN_PATH = 'token.json'
 
 function authorize () {
   return new Promise(function (resolve, reject) {
-    fs.readFile('credentials.json', (err, content) => {
-      if (err) return console.log('Error loading client secret file:', err)
+    const { client_secret, client_id, redirect_uris } = credentials.installed
+    const oAuth2Client = new google.auth.OAuth2(
+      client_id, client_secret, redirect_uris[0])
 
-      const credentials = JSON.parse(content)
-      const { clientSecret, clientId, redirectUris } = credentials.installed
-      const oAuth2Client = new google.auth.OAuth2(
-        clientId, clientSecret, redirectUris[0])
-
-      // Check if we have previously stored a token.
-      fs.readFile(TOKEN_PATH, (err, token) => {
-        if (err) return getNewToken(oAuth2Client, resolve)
-        oAuth2Client.setCredentials(JSON.parse(token))
-        resolve(oAuth2Client)
-      })
+    // Check if we have previously stored a token.
+    fs.readFile(TOKEN_PATH, (err, token) => {
+      if (err) return getNewToken(oAuth2Client, resolve)
+      oAuth2Client.setCredentials(JSON.parse(token))
+      resolve(oAuth2Client)
     })
   })
 }
