@@ -1,24 +1,24 @@
 import React, { Component } from 'react'
-import { Button } from 'react-bootstrap';
+import { Button } from 'react-bootstrap'
 import './App.css'
 import SearchBar from './components/SearchBar'
 import EmailsList from './components/EmailsList'
 
 class App extends Component {
-  goTo(route) {
+  goTo (route) {
     this.props.history.replace(`/${route}`)
   }
 
-  login() {
-    this.props.auth.login();
+  login () {
+    this.props.auth.login()
   }
 
-  logout() {
-    this.props.auth.logout();
+  logout () {
+    this.props.auth.logout()
   }
 
   render () {
-    const { isAuthenticated } = this.props.auth;
+    const { isAuthenticated } = this.props.auth
 
     return (
       <div className='App'>
@@ -33,9 +33,9 @@ class App extends Component {
                   <form className='navbar-form navbar-left'>
                     <SearchBar />
                     <Button
-                      id="qsLogoutBtn"
-                      bsStyle="primary"
-                      className="btn-margin"
+                      id='qsLogoutBtn'
+                      bsStyle='primary'
+                      className='btn-margin'
                       onClick={this.logout.bind(this)}>
                       Log Out
                     </Button>
@@ -46,11 +46,11 @@ class App extends Component {
 
             {
               !isAuthenticated() && (
-                  <Button
-                    id="qsLoginBtn"
-                    bsStyle="primary"
-                    className="btn-margin"
-                    onClick={this.login.bind(this)}>
+              <Button
+                id='qsLoginBtn'
+                bsStyle='primary'
+                className='btn-margin'
+                onClick={this.login.bind(this)}>
                     Log In
                   </Button>
                 )
