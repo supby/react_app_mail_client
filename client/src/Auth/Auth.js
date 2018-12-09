@@ -7,7 +7,8 @@ export default class Auth {
         clientID: '944aNoknDhKKZ6hyowBUdCRHX9zg8s3e',
         redirectUri: 'http://localhost:3000/callback',
         responseType: 'token id_token',
-        scope: 'openid'
+        scope: 'openid read:list',
+        audience: 'http://mailapp'
     });
 
     constructor() {
@@ -38,6 +39,7 @@ export default class Auth {
         // Set the time that the access token will expire at
         let expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
         localStorage.setItem('access_token', authResult.accessToken);
+        console.log(authResult.accessToken);
         localStorage.setItem('id_token', authResult.idToken);
         localStorage.setItem('expires_at', expiresAt);
         // navigate to the root route
