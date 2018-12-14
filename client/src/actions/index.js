@@ -34,7 +34,7 @@ export function loadSearchQueryShortResults (query) {
 
 export function loadEmailsList () {
   return async dispatch => {
-    const resp = await axios.get('api/list/temp/messages', {
+    const resp = await axios.get('api/list', {
       headers: { Authorization: 'Bearer ' + localStorage.getItem('access_token') }})
 
     console.log(resp)

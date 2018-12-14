@@ -7,7 +7,7 @@ export default class Auth {
         clientID: '944aNoknDhKKZ6hyowBUdCRHX9zg8s3e',
         redirectUri: 'http://localhost:3000/callback',
         responseType: 'token id_token',
-        scope: 'openid read:list',
+        scope: 'openid read:list profile',
         audience: 'http://mailapp'
     });
 

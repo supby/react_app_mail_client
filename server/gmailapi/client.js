@@ -10,18 +10,22 @@ const SCOPES = ['https://www.googleapis.com/auth/gmail.readonly']
 // time.
 const TOKEN_PATH = 'token.json'
 
-function authorize () {
+function authorize (tkn) {
   return new Promise(function (resolve, reject) {
     const { client_secret, client_id, redirect_uris } = credentials.installed
-    const oAuth2Client = new google.auth.OAuth2(
-      client_id, client_secret, redirect_uris[0])
+    const oAuth2Client = new google.auth.OAuth2(client_id, client_secret, redirect_uris[0])
 
-    // Check if we have previously stored a token.
-    fs.readFile(TOKEN_PATH, (err, token) => {
-      if (err) return getNewToken(oAuth2Client, resolve)
-      oAuth2Client.setCredentials(JSON.parse(token))
+    if (tkn) {
+      oAuth2Client.setCredentials(JSON.parse(tkn))
       resolve(oAuth2Client)
-    })
+    } else {
+      // Check if we have previously stored a token.
+      fs.readFile(TOKEN_PATH, (err, token) => {
+        if (err) return getNewToken(oAuth2Client, resolve)
+        oAuth2Client.setCredentials(JSON.parse(token))
+        resolve(oAuth2Client)
+      })
+    }
   })
 }
 
