@@ -11,46 +11,60 @@ const SCOPES = ['https://www.googleapis.com/auth/gmail.readonly']
 const TOKEN_PATH = 'token.json'
 
 function authorize (tkn) {
-  return new Promise(function (resolve, reject) {
-    const { client_secret, client_id, redirect_uris } = credentials.installed
-    const oAuth2Client = new google.auth.OAuth2(client_id, client_secret, redirect_uris[0])
+  return new Promise(async function (resolve, reject) {
+    const { clientSecret, clientId, redirectUris } = credentials.installed
+    const oAuth2Client = new google.auth.OAuth2(clientId, clientSecret, redirectUris[0])
 
     if (tkn) {
-      oAuth2Client.setCredentials(JSON.parse(tkn))
+      oAuth2Client.setCredentials(tkn)
+      storeToken(tkn)
       resolve(oAuth2Client)
     } else {
       // Check if we have previously stored a token.
-      fs.readFile(TOKEN_PATH, (err, token) => {
-        if (err) return getNewToken(oAuth2Client, resolve)
-        oAuth2Client.setCredentials(JSON.parse(token))
-        resolve(oAuth2Client)
-      })
+      const token = await readToken(oAuth2Client) || await getNewToken(oAuth2Client)
+
+      storeToken(token)
+
+      oAuth2Client.setCredentials(token)
+      resolve(token)
     }
   })
 }
 
-function getNewToken (oAuth2Client, callback) {
-  const authUrl = oAuth2Client.generateAuthUrl({
-    access_type: 'offline',
-    scope: SCOPES
-  })
-  console.log('Authorize this app by visiting this url:', authUrl)
-  const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-  })
-  rl.question('Enter the code from that page here: ', (code) => {
-    rl.close()
-    oAuth2Client.getToken(code, (err, token) => {
-      if (err) return console.error('Error retrieving access token', err)
-      oAuth2Client.setCredentials(token)
-      // Store the token to disk for later program executions
-      fs.writeFile(TOKEN_PATH, JSON.stringify(token), (err) => {
-        if (err) return console.error(err)
-        console.log('Token stored to', TOKEN_PATH)
-      })
-      callback(oAuth2Client)
+function readToken () {
+  return new Promise((resolve, reject) => {
+    fs.readFile(TOKEN_PATH, (err, token) => {
+      if (err) console.log(err)
+      resolve(JSON.parse(token))
     })
+  })
+}
+
+function getNewToken (oAuth2Client) {
+  return new Promise((resolve, reject) => {
+    const authUrl = oAuth2Client.generateAuthUrl({
+      access_type: 'offline',
+      scope: SCOPES
+    })
+    console.log('Authorize this app by visiting this url:', authUrl)
+    const rl = readline.createInterface({
+      input: process.stdin,
+      output: process.stdout
+    })
+    rl.question('Enter the code from that page here: ', (code) => {
+      rl.close()
+      oAuth2Client.getToken(code, (err, token) => {
+        if (err) reject(err)
+        else resolve(token)
+      })
+    })
+  })
+}
+
+function storeToken (token) {
+  fs.writeFile(TOKEN_PATH, JSON.stringify(token), (err) => {
+    if (err) throw Error('Store token error.')
+    console.log('Token stored to', TOKEN_PATH)
   })
 }
 
