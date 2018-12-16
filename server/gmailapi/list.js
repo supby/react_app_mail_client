@@ -1,8 +1,8 @@
 const { google } = require('googleapis')
 const client = require('./client')
 
-async function listMessages (token) {
-  var auth = await client(token)
+async function listMessages (authData) {
+  var auth = await client(authData)
   // console.log(auth)
   const gmail = google.gmail({
     version: 'v1',

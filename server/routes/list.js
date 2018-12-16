@@ -11,7 +11,7 @@ const checkScopes = jwtAuthz(['read:list'])
 router.get('/:userId', checkJwt, checkScopes, async function (req, res) {
   const profile = await userProfile.getUserProfile(req.params.userId)
   res.json({
-    messages: await gmail.list.messages(profile.identities[0].access_token)
+    messages: await gmail.list.messages(profile.identities[0])
   })
 })
 

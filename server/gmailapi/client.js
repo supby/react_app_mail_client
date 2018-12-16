@@ -10,14 +10,14 @@ const SCOPES = ['https://www.googleapis.com/auth/gmail.readonly']
 // time.
 const TOKEN_PATH = 'token.json'
 
-function authorize (tkn) {
+function authorize (authData) {
   return new Promise(async function (resolve, reject) {
     const { clientSecret, clientId, redirectUris } = credentials.installed
     const oAuth2Client = new google.auth.OAuth2(clientId, clientSecret, redirectUris[0])
 
-    if (tkn) {
-      oAuth2Client.setCredentials(tkn)
-      storeToken(tkn)
+    if (authData) {
+      oAuth2Client.setCredentials(authData)
+      storeToken(authData)
       resolve(oAuth2Client)
     } else {
       // Check if we have previously stored a token.
