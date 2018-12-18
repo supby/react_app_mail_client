@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import { Button } from 'react-bootstrap'
 import './App.css'
 import SearchBar from './components/SearchBar'
 import EmailsList from './components/EmailsList'
+import Login from './components/Login'
 
 class App extends Component {
   goTo (route) {
@@ -32,13 +32,6 @@ class App extends Component {
                 <div className='collapse navbar-collapse'>
                   <form className='navbar-form navbar-left'>
                     <SearchBar />
-                    <Button
-                      id='qsLogoutBtn'
-                      bsStyle='primary'
-                      className='btn-margin'
-                      onClick={this.logout.bind(this)}>
-                      Log Out
-                    </Button>
                   </form>
                 </div>
               )
@@ -46,13 +39,7 @@ class App extends Component {
 
             {
               !isAuthenticated() && (
-              <Button
-                id='qsLoginBtn'
-                bsStyle='primary'
-                className='btn-margin'
-                onClick={this.login.bind(this)}>
-                    Log In
-                  </Button>
+                <Login auth={this.props.auth} />
                 )
             }
           </div>
@@ -61,11 +48,9 @@ class App extends Component {
               isAuthenticated() && (
                 <div style={{marginTop: 100 + 'px'}} className='container'>
                   <div className='row'>
-                    <div className='col-lg-2'>Left Pane</div>
                     <div className='col-lg-6'>
                       <EmailsList />
                     </div>
-                    <div className='col-lg-2'>Right Pane</div>
                   </div>
                 </div>
               )

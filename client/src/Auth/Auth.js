@@ -1,45 +1,14 @@
 import history from '../history'
-import auth0 from 'auth0-js'
 
 export default class Auth {
   constructor () {
-    this.auth0 = new auth0.WebAuth({
-      domain: 'andresuz.eu.auth0.com',
-      clientID: '944aNoknDhKKZ6hyowBUdCRHX9zg8s3e',
-      redirectUri: 'http://localhost:3000/callback',
-      responseType: 'token id_token',
-      scope: 'openid read:list profile',
-      audience: 'http://mailapp'
-    })
-
-    this.login = this.login.bind(this)
-    this.logout = this.logout.bind(this)
-    this.handleAuthentication = this.handleAuthentication.bind(this)
     this.isAuthenticated = this.isAuthenticated.bind(this)
   }
 
-  login () {
-    this.auth0.authorize()
-  }
-
-  handleAuthentication () {
-    this.auth0.parseHash((err, authResult) => {
-      if (authResult && authResult.accessToken && authResult.idToken) {
-        this.setSession(authResult)
-        history.replace('/')
-      } else if (err) {
-        history.replace('/')
-        console.log(err)
-      }
-    })
-  }
-
   async setSession (authResult) {
-    // Set the time that the access token will expire at
-    let expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime())
-    localStorage.setItem('access_token', authResult.accessToken)
-    localStorage.setItem('id_token', authResult.idToken)
-    localStorage.setItem('expires_at', expiresAt)
+    localStorage.setItem('access_token', authResult.tokenObj.access_token)
+    localStorage.setItem('id_token', authResult.tokenObj.id_token)
+    localStorage.setItem('expires_at', authResult.tokenObj.expires_at)
     // navigate to the root route
     history.replace('/')
   }
