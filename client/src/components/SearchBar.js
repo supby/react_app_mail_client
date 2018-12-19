@@ -35,7 +35,6 @@ class SearchBar extends Component {
 }
 
 const mapStateToProps = state => {
-  console.log(state)
   return {
     results: state.searchBar.results
   }

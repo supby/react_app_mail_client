@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "ajv": "^6.6.2",    
+    "ajv": "^6.6.2",
     "axios": "^0.18.0",
     "bootstrap": "^3.3.7",
     "lodash": "^4.17.10",

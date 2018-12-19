@@ -1,63 +1,61 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { Nav, Navbar, FormGroup, Grid, Row, Col } from 'react-bootstrap'
 import './App.css'
 import SearchBar from './components/SearchBar'
 import EmailsList from './components/EmailsList'
 import Login from './components/Login'
 
 class App extends Component {
-  goTo (route) {
-    this.props.history.replace(`/${route}`)
-  }
-
-  login () {
-    this.props.auth.login()
-  }
-
-  logout () {
-    this.props.auth.logout()
-  }
-
   render () {
-    const { isAuthenticated } = this.props.auth
-
     return (
       <div className='App'>
-        <nav className='navbar navbar-default navbar-fixed-top'>
-          <div className='container-fluid'>
-            <div className='navbar-header'>
-              <a className='navbar-brand' href='/'>Brand</a>
-            </div>
-            {
-              isAuthenticated() && (
-                <div className='collapse navbar-collapse'>
-                  <form className='navbar-form navbar-left'>
-                    <SearchBar />
-                  </form>
-                </div>
-              )
-            }
-
-            {
-              !isAuthenticated() && (
-                <Login auth={this.props.auth} />
-                )
-            }
-          </div>
-        </nav>
+        <Navbar inverse collapseOnSelect>
+          <Navbar.Header>
+            <Navbar.Brand>
+              <a href='#brand'>Mail</a>
+            </Navbar.Brand>
+            <Navbar.Toggle />
+          </Navbar.Header>
+          <Navbar.Collapse>
+            <Navbar.Form pullLeft>
+              <FormGroup>
+                {
+                  this.props.isAuthenticated && (<SearchBar />)
+                }
+              </FormGroup>
+            </Navbar.Form>
+            <Nav pullRight>
+              {
+                !this.props.isAuthenticated && (<Login auth={this.props.auth} />)
+              }
+            </Nav>
+          </Navbar.Collapse>
+        </Navbar>
         {
-              isAuthenticated() && (
-                <div style={{marginTop: 100 + 'px'}} className='container'>
-                  <div className='row'>
-                    <div className='col-lg-6'>
+              this.props.isAuthenticated && (
+                <Grid>
+                  <Row className='show-grid'>
+                    <Col xs={6} md={4}>
                       <EmailsList />
-                    </div>
-                  </div>
-                </div>
-              )
-          }
+                    </Col>
+                  </Row>
+                </Grid>)
+        }
       </div>
     )
   }
 }
 
-export default App
+const mapStateToProps = state => {
+  return { isAuthenticated: state.auth.isAuthenticated }
+}
+
+const mapDispatchToProps = dispatch => {
+  return { }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App)

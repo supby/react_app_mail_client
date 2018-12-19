@@ -1,16 +1,24 @@
 import axios from 'axios'
+import { SHOW_SHORT_SEARCH_RESULTS, SHOW_EMAILS_LIST, SET_AUTH } from '../constants/actions'
 
 export function showSearchQueryShortResults (results) {
   return {
-    type: 'SHOW_SHORT_SEARCH_RESULTS',
+    type: SHOW_SHORT_SEARCH_RESULTS,
     results: results
   }
 }
 
 export function showEmailsList (list) {
   return {
-    type: 'SHOW_EMAILS_LIST',
+    type: SHOW_EMAILS_LIST,
     list: list
+  }
+}
+
+export function setAuth (isAuthenticated) {
+  return {
+    type: SET_AUTH,
+    isAuthenticated: isAuthenticated
   }
 }
 
