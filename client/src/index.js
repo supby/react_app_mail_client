@@ -11,6 +11,7 @@ import App from './App'
 import registerServiceWorker from './registerServiceWorker'
 import { BrowserRouter, Route } from 'react-router-dom'
 import Auth from './Auth/Auth'
+import { setAuth } from './actions'
 
 const store = createStore(
     rootReducer,
@@ -18,13 +19,12 @@ const store = createStore(
 )
 
 const auth = new Auth()
+store.dispatch(setAuth(auth.isAuthenticated))
 
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
-      <div>
-        <Route path='/' render={(props) => <App auth={auth} {...props} />} />
-      </div>
+      <Route path='/' render={(props) => <App auth={auth} {...props} />} />
     </BrowserRouter>
   </Provider>,
     document.getElementById('root'))

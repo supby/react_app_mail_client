@@ -17,6 +17,7 @@ class Login extends Component {
         buttonText='Login'
         onSuccess={responseGoogle}
         onFailure={responseGoogle}
+        scope='https://www.googleapis.com/auth/gmail.readonly'
         />)
   }
 }

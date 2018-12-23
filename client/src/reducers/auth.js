@@ -1,7 +1,7 @@
 import { SET_AUTH } from '../constants/actions'
 
 const authDefaultState = {
-  isAuthenticated: false
+  isAuthenticated: () => false
 }
 
 export const auth = (state = authDefaultState, action) => {

@@ -1,5 +1,5 @@
-import axios from 'axios'
 import { SHOW_SHORT_SEARCH_RESULTS, SHOW_EMAILS_LIST, SET_AUTH } from '../constants/actions'
+import credentials from '../config/credentials'
 
 export function showSearchQueryShortResults (results) {
   return {
@@ -42,12 +42,37 @@ export function loadSearchQueryShortResults (query) {
 
 export function loadEmailsList () {
   return async dispatch => {
-    const resp = await axios.get('api/list', {
-      headers: { Authorization: 'Bearer ' + localStorage.getItem('access_token') }})
+    const DISCOVERY_DOCS = ['https://www.googleapis.com/discovery/v1/apis/gmail/v1/rest']
+    const SCOPES = 'https://www.googleapis.com/auth/gmail.readonly'
+    console.log('load emails')
 
-    console.log(resp)
-    dispatch(showEmailsList(resp))
+    window.gapi.client.init({
+      apiKey: credentials.apiKey,
+      clientId: credentials.clientId,
+      discoveryDocs: DISCOVERY_DOCS,
+      scope: SCOPES
+    }).then((resp) => {
+      console.log('load emails 2')
 
+      window.gapi.client.gmail.users.messages.list({
+        'userId': 'me'
+      }).then((resp2) => {
+        console.log(resp2)
+      })
+    })
+    // let res = await window.gapi.client.init({
+    //   apiKey: credentials.apiKey,
+    //   clientId: credentials.clientId,
+    //   discoveryDocs: DISCOVERY_DOCS,
+    //   scope: SCOPES
+    // })
+    // console.log('load emails 2')
+    // res = await window.gapi.client.gmail.users.messages.list({
+    //   'userId': 'me'
+    // })
+    // console.log('load emails 3')
+    // console.log(res.reseult.messages)
+    // dispatch(showEmailsList(res.reseult.messages))
     // DEBUG: test data
     // dispatch(
     //   showEmailsList([
