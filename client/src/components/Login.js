@@ -3,6 +3,7 @@ import { GoogleLogin } from 'react-google-login'
 import { connect } from 'react-redux'
 import credentials from '../config/credentials'
 import { setAuth } from '../actions'
+import { GOOG_SCOPE } from '../constants/goog'
 
 class Login extends Component {
   render () {
@@ -17,7 +18,7 @@ class Login extends Component {
         buttonText='Login'
         onSuccess={responseGoogle}
         onFailure={responseGoogle}
-        scope='https://www.googleapis.com/auth/gmail.readonly'
+        scope={GOOG_SCOPE}
         />)
   }
 }
