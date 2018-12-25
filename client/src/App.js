@@ -36,9 +36,7 @@ class App extends Component {
               this.props.isAuthenticated && (
                 <Grid>
                   <Row className='show-grid'>
-                    <Col xs={6} md={4}>
-                      <EmailsList />
-                    </Col>
+                    <EmailsList />
                   </Row>
                 </Grid>)
         }

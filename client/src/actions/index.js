@@ -37,29 +37,27 @@ export function loadSearchQueryShortResults (query) {
 
 export function loadEmailsList () {
   return async dispatch => {
-    console.log('load emails')
+    const messageListResp = await window.gapi.client.gmail.users.messages.list({'userId': 'me'})
 
-    const res = await window.gapi.client.gmail.users.labels.list({'userId': 'me'})
-    console.log(res)
-    // DEBUG: test data
-    // dispatch(
-    //   showEmailsList([
-    //     { id: 1, title: 'Hi Andre. It is from ... 1' },
-    //     { id: 2, title: 'Hi Andre. It is from ... 2' },
-    //     { id: 3, title: 'Hi Andre. It is from ... 3' },
-    //     { id: 4, title: 'Hi Andre. It is from ... 4' },
-    //     { id: 5, title: 'Hi Andre. It is from ... 5' },
-    //     { id: 6, title: 'Hi Andre. It is from ... 6' },
-    //     { id: 7, title: 'Hi Andre. It is from ... 7' },
-    //     { id: 8, title: 'Hi Andre. It is from ... 8' },
-    //     { id: 9, title: 'Hi Andre. It is from ... 9' },
-    //     { id: 10, title: 'Hi Andre. It is from ... 10' },
-    //     { id: 11, title: 'Hi Andre. It is from ... 11' },
-    //     { id: 12, title: 'Hi Andre. It is from ... 12' },
-    //     { id: 13, title: 'Hi Andre. It is from ... 13' },
-    //     { id: 14, title: 'Hi Andre. It is from ... 14' },
-    //     { id: 15, title: 'Hi Andre. It is from ... 15' }
-    //   ])
-    // )
+    const batch = window.gapi.client.newBatch()
+
+    const getMessage = (messageId) => {
+      return window.gapi.client.gmail.users.messages.get({ 'userId': 'me', 'id': messageId })
+    }
+
+    messageListResp.result.messages.forEach(el => {
+      batch.add(getMessage(el.id))
+    })
+    const batchResult = await batch
+
+    dispatch(
+      showEmailsList(
+        Object.keys(batchResult.result)
+              .map(el => {
+                return {
+                  id: batchResult.result[el].result.id,
+                  title: batchResult.result[el].result.snippet
+                }
+              })))
   }
 }

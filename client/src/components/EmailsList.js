@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { loadEmailsList } from '../actions'
+import { Panel } from 'react-bootstrap'
 
 class EmailsList extends Component {
   componentDidMount () {
@@ -9,10 +10,12 @@ class EmailsList extends Component {
 
   render () {
     return (
-      <div>
+      <React.Fragment>
         { this.props.list.map((el) =>
-          <div key={el.id}>{el.title}</div>)}
-      </div>
+          <Panel key={el.id}>
+            <Panel.Body>{el.title}</Panel.Body>
+          </Panel>)}
+      </React.Fragment>
     )
   }
 }
