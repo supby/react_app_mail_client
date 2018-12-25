@@ -7,10 +7,10 @@ export function showSearchQueryShortResults (results) {
   }
 }
 
-export function showEmailsList (list) {
+export function showEmailsList (payload) {
   return {
     type: SHOW_EMAILS_LIST,
-    list: list
+    payload: payload
   }
 }
 
@@ -51,13 +51,15 @@ export function loadEmailsList () {
     const batchResult = await batch
 
     dispatch(
-      showEmailsList(
-        Object.keys(batchResult.result)
-              .map(el => {
-                return {
-                  id: batchResult.result[el].result.id,
-                  title: batchResult.result[el].result.snippet
-                }
-              })))
+      showEmailsList({
+        isLoading: false,
+        list: Object.keys(batchResult.result)
+                    .map(el => {
+                      return {
+                        id: batchResult.result[el].result.id,
+                        title: batchResult.result[el].result.snippet
+                      }
+                    })
+      }))
   }
 }

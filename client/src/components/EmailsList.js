@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { loadEmailsList } from '../actions'
 import { Panel } from 'react-bootstrap'
+import loading from '../images/giphy.gif'
 
 class EmailsList extends Component {
   componentDidMount () {
@@ -11,10 +12,14 @@ class EmailsList extends Component {
   render () {
     return (
       <React.Fragment>
-        { this.props.list.map((el) =>
-          <Panel key={el.id}>
-            <Panel.Body>{el.title}</Panel.Body>
-          </Panel>)}
+        {this.props.isLoading && (<img src={loading} alt='Loading...' />)}
+        {
+          !this.props.isLoading &&
+          (this.props.list.map((el) =>
+            <Panel key={el.id}>
+              <Panel.Body>{el.title}</Panel.Body>
+            </Panel>))
+        }
       </React.Fragment>
     )
   }
@@ -22,6 +27,7 @@ class EmailsList extends Component {
 
 const mapStateToProps = state => {
   return {
+    isLoading: state.emailsList.isLoading,
     list: state.emailsList.list
   }
 }

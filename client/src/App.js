@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Nav, Navbar, FormGroup, Grid, Row, Col } from 'react-bootstrap'
+import { Nav, Navbar, FormGroup, Grid, Row } from 'react-bootstrap'
 import './App.css'
 import SearchBar from './components/SearchBar'
 import EmailsList from './components/EmailsList'
