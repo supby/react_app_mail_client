@@ -11,16 +11,14 @@ class EmailsList extends Component {
 
   render () {
     return (
-      <React.Fragment>
-        {this.props.isLoading && (<Loading isLoading={this.props.isLoading} />)}
+      <Loading isLoading={this.props.isLoading}>
         {
-          !this.props.isLoading &&
-          (this.props.list.map((el) =>
+          this.props.list.map(el =>
             <Panel key={el.id}>
               <Panel.Body>{el.title}</Panel.Body>
-            </Panel>))
+            </Panel>)
         }
-      </React.Fragment>
+      </Loading>
     )
   }
 }

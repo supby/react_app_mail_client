@@ -1,12 +1,9 @@
-import React, { Component } from 'react'
+import React from 'react'
 import loading from '../images/giphy.gif'
 
-export default class Loading extends Component {
-  render () {
-    return (
-      <React.Fragment>
-        {this.props.isLoading && (<img src={loading} alt='Loading...' />)}
-      </React.Fragment>
-    )
-  }
-}
+export default (props) => (
+  <React.Fragment>
+    {props.isLoading && (<img src={loading} alt='Loading...' />)}
+    {!props.isLoading && (props.children)}
+  </React.Fragment>
+)
