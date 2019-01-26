@@ -37,23 +37,32 @@ export function loadSearchQueryShortResults (query) {
 
 export function loadEmailsList () {
   return async dispatch => {
-    const messageListResp = await window.gapi.client.gmail.users.messages.list({'userId': 'me'})
+    const messageListResp = await window.gapi.client.gmail.users.messages.list({
+      'userId': 'me',
+      'labelIds': ['INBOX']
+    })
 
     const batch = window.gapi.client.newBatch()
 
     const getMessage = (messageId) => {
-      return window.gapi.client.gmail.users.messages.get({ 'userId': 'me', 'id': messageId })
+      return window.gapi.client.gmail.users.messages.get({
+        'userId': 'me',
+        'id': messageId
+      })
     }
 
     messageListResp.result.messages.forEach(el => {
       batch.add(getMessage(el.id))
     })
     const batchResult = await batch
-
+    console.log(batchResult.result)
     dispatch(
       showEmailsList({
         isLoading: false,
         list: Object.keys(batchResult.result)
+                    .sort((a, b) => {
+                      return batchResult.result[b].result.internalDate - batchResult.result[a].result.internalDate
+                    })
                     .map(el => {
                       return {
                         id: batchResult.result[el].result.id,
