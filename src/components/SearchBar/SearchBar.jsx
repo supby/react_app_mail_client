@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import _ from 'lodash'
 import { connect } from 'react-redux'
-import { loadSearchQueryShortResults } from '../actions'
+import { loadSearchQueryShortResults } from '../../actions'
 
 class SearchBar extends Component {
   constructor () {

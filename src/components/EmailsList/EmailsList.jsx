@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { loadEmailsList } from '../actions'
-import { Panel } from 'react-bootstrap'
-import Loading from './Loading'
+import { loadEmailsList } from '../../actions'
+import { Card } from 'react-bootstrap'
+import Loading from '../Loading/Loading'
 
 class EmailsList extends Component {
   componentDidMount () {
@@ -14,9 +14,9 @@ class EmailsList extends Component {
       <Loading isLoading={this.props.isLoading}>
         {
           this.props.list.map(el =>
-            <Panel key={el.id}>
-              <Panel.Body>{el.title}</Panel.Body>
-            </Panel>)
+            <Card key={el.id}>
+              <Card.Body>{el.title}</Card.Body>
+            </Card>)
         }
       </Loading>
     )

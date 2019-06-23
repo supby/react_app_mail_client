@@ -5,7 +5,6 @@ import rootReducer from './reducers'
 import { createStore, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap/dist/css/bootstrap-theme.css'
 import './index.css'
 import App from './App'
 import registerServiceWorker from './registerServiceWorker'
@@ -17,14 +16,14 @@ import credentials from './config/credentials'
 import { GOOG_SCOPE, DISCOVERY_DOCS } from './constants/goog'
 
 const store = createStore(
-    rootReducer,
-    applyMiddleware(thunk)
+  rootReducer,
+  applyMiddleware(thunk)
 )
 
 const auth = new Auth()
 store.dispatch(setAuth(auth.isAuthenticated()))
 
-async function init () {
+async function init() {
   return new Promise(async (resolve, reject) => {
     await loadGAPI()
 
@@ -50,6 +49,6 @@ init().then(() => {
         <Route path='/' render={(props) => <App auth={auth} {...props} />} />
       </BrowserRouter>
     </Provider>,
-      document.getElementById('root'))
+    document.getElementById('root'))
   registerServiceWorker()
 })

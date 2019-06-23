@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { GoogleLogin } from 'react-google-login'
 import { connect } from 'react-redux'
-import credentials from '../config/credentials'
-import { setAuth } from '../actions'
-import { GOOG_SCOPE } from '../constants/goog'
+import credentials from '../../config/credentials'
+import { setAuth } from '../../actions'
+import { GOOG_SCOPE } from '../../constants/goog'
 
 class Login extends Component {
   render () {

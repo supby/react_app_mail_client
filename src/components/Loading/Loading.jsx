@@ -1,5 +1,5 @@
 import React from 'react'
-import loading from '../images/giphy.gif'
+import loading from './giphy.gif'
 
 export default (props) => (
   <React.Fragment>
